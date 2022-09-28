@@ -1,4 +1,4 @@
-FROM tuxbox1/base-container
+FROM steamcmd/steamcmd:ubuntu-20
 #sets up and installs steamCMD
 
 MAINTAINER tux-box <nathan.flow@gmail.com>
@@ -21,13 +21,14 @@ ENV DATA_PERM=770
 
 RUN mkdir $DATA_DIR && \
         mkdir $SERVER_DIR && \
+        mkdir /scripts && \
         useradd -d $DATA_DIR -s /bin/bash $USER && \
         chown -R $USER $DATA_DIR && \
         ulimit -n 2048
 
-ADD /scripts/ /scripts
+ADD scripts/ /scripts/
 RUN chmod -R 770 /scripts/
+RUN /usr/games/steamcmd +login anonymous +quit
 
 #proccess work.
-ENTRYPOINT ["/scripts/proccessWork.sh"]
-
+#ENTRYPOINT ["/scripts/processWork.sh"]
