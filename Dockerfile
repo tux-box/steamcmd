@@ -20,14 +20,14 @@ ENV USER="steam"
 ENV DATA_PERM=770
 
 RUN mkdir $DATA_DIR && \
-        mkdir $SERVER_DIR && \
-        mkdir /scripts && \
+        mkdir $ARMA_DIR && \
         useradd -d $DATA_DIR -s /bin/bash $USER && \
+        apt-get update && apt-get install -y git curl nano && \
+        apt-get clean && apt-get autoremove && \
+        rm -rf /var/lib/apt/lists/* &&\
         chown -R $USER $DATA_DIR && \
         ulimit -n 2048
 
-ADD scripts/ /scripts/
-RUN chmod -R 770 /scripts/
 RUN /usr/games/steamcmd +login anonymous +quit
 
 #proccess work.
